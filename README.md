@@ -1,7 +1,7 @@
-json-wikipedia ![travis-ci-badge](https://travis-ci.org/diegoceccarelli/json-wikipedia.svg?branch=master) 
+sql-wikipedia ![travis-ci-badge](https://travis-ci.org/diegoceccarelli/json-wikipedia.svg?branch=master) 
 ==============
 
- Json Wikipedia contains code to convert the Wikipedia XML dump into a [JSON][json] dump.
+ Json Wikipedia contains code to convert the Wikipedia XML dump into a SQL dump.
 
  - Please be aware that this tool does not work with the `multistream` dump.
 
