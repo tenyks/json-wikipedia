@@ -35,7 +35,7 @@ public class Article {
 
 	private final static String NOTITLE = "";
 
-	private static transient Gson gson = new Gson();
+	private final static transient Gson gson = new Gson();
 
 	/** The possible types of an article (e.g., template, article, category) **/
 	public enum Type {
@@ -60,7 +60,7 @@ public class Article {
 	private List<Link> externalLinks;
 	protected String redirect;
 	private List<String> sections;
-	private List<String> paragraphs;
+	private List<ParagraphLite> paragraphLites;
 	private List<Link> categories;
 	private List<Template> templates;
 	private List<String> templatesSchema;
@@ -78,43 +78,41 @@ public class Article {
 		this.templatesSchema = templatesSchema;
 	}
 
-	public List<String> getParagraphs() {
-		if (paragraphs == null)
+	public List<ParagraphLite> getParagraphLites() {
+		if (paragraphLites == null)
 			return Collections.emptyList();
-		return paragraphs;
+		return paragraphLites;
 	}
 
-	public List<String> getCleanParagraphs() {
-		List<String> paragraphs = getParagraphs();
-		if (paragraphs.isEmpty())
+	public List<ParagraphLite> getCleanParagraphs() {
+		List<ParagraphLite> paragraphLites = getParagraphLites();
+		if (paragraphLites.isEmpty())
 			return Collections.emptyList();
-		List<String> cleanParagraphs = new ArrayList<String>(paragraphs.size());
-		for (String p : paragraphs) {
-			cleanParagraphs.add(removeTemplates(p));
+		List<ParagraphLite> cleanParagraphLites = new ArrayList<>(paragraphLites.size());
+		for (ParagraphLite p : paragraphLites) {
+			cleanParagraphLites.add(new ParagraphLite(p.getSectionTitle(), removeTemplates(p.getText())));
 		}
-		return cleanParagraphs;
+		return cleanParagraphLites;
 	}
 
 	public String getCleanText() {
 		StringBuilder sb = new StringBuilder();
-		for (String s : getCleanParagraphs()) {
-			sb.append(s).append(" ");
-
+		for (ParagraphLite s : getCleanParagraphs()) {
+			sb.append(s.getText()).append(" ");
 		}
 		return sb.toString();
 	}
 
 	public String getText() {
 		StringBuilder sb = new StringBuilder();
-		for (String s : getParagraphs()) {
-			sb.append(s).append(" ");
-
+		for (ParagraphLite s : getParagraphLites()) {
+			sb.append(s.getText()).append(" ");
 		}
 		return sb.toString();
 	}
 
-	public void setParagraphs(List<String> paragraphs) {
-		this.paragraphs = paragraphs;
+	public void setParagraphLites(List<ParagraphLite> paragraphLites) {
+		this.paragraphLites = paragraphLites;
 	}
 
 	public String getRedirect() {
@@ -319,7 +317,7 @@ public class Article {
 		for (Link l : getCategories())
 			sb.append("\t").append(l).append("\n");
 		sb.append("PARAGRAPHs:\n");
-		for (String p : getParagraphs())
+		for (ParagraphLite p : getParagraphLites())
 			sb.append("\t").append(p).append("\n");
 		return sb.toString();
 	}
@@ -351,7 +349,6 @@ public class Article {
 			text = text.substring(0, pos) + text.substring(end);
 		}
 		return text;
-
 	}
 
 	public List<Table> getTables() {
@@ -472,7 +469,6 @@ public class Article {
 
 	public static Article fromJson(String json) {
 		return gson.fromJson(json, Article.class);
-
 	}
 
 	@Override
@@ -541,7 +537,7 @@ public class Article {
 		if (getSummary().isEmpty()) {
 			String text = getCleanText();
 			if (text.length() > 1000) {
-				sb.append(text.substring(0, 1000) + "...");
+				sb.append(text.substring(0, 1000)).append("...");
 
 			} else{
 				sb.append(text);
@@ -552,20 +548,6 @@ public class Article {
 		sb.append("\n");
 		return sb.toString();
 	}
-
-	// /**
-	// * @return the shortDescription
-	// */
-	// public String getShortDescription() {
-	// return shortDescription;
-	// }
-	//
-	// /**
-	// * @param shortDescription the shortDescription to set
-	// */
-	// public void setShortDescription(String shortDescription) {
-	// this.shortDescription = shortDescription;
-	// }
 
 	public String getSummary() {
 		if (summary == null)
@@ -587,7 +569,6 @@ public class Article {
 
 	public String getTypeName() {
 		return type.toString();
-
 	}
 
 }

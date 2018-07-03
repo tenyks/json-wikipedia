@@ -38,19 +38,15 @@ public class ArticleSummarizer {
 		this.maxLength = maxLength;
 		minLength = maxLength -100;
 	}
-	
-	
-	
-	
-	
+
 	private final static String TRIM_CHARS="[ ,.:-_;^]+$";
 	
 	public String getSummary(Article article){
 		StringBuilder sb = new StringBuilder(maxLength);
-		for (String paragraph : article.getParagraphs()){
-			paragraph = cleanWikiText(paragraph);
-			sb.append(paragraph);
-			if (!paragraph.trim().isEmpty())
+		for (ParagraphLite paragraph : article.getParagraphLites()){
+			String p = cleanWikiText(paragraph.getText());
+			sb.append(p);
+			if (!p.trim().isEmpty())
 				sb.append(" ");
 			if (sb.length() > maxLength) {
 				break;
@@ -59,9 +55,7 @@ public class ArticleSummarizer {
 		int pos = sb.lastIndexOf("[a-z0-9]. ");
 		if (pos > minLength)
 			sb.setLength(pos);
-	
-		
-		
+
 		return sb.toString().replaceAll(TRIM_CHARS, ".");
 	}
 	

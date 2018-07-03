@@ -19,12 +19,8 @@ import de.tudarmstadt.ukp.wikipedia.parser.ContentElement;
 import de.tudarmstadt.ukp.wikipedia.parser.DefinitionList;
 import de.tudarmstadt.ukp.wikipedia.parser.NestedList;
 import de.tudarmstadt.ukp.wikipedia.parser.NestedListContainer;
-import it.cnr.isti.hpc.wikipedia.article.Article;
+import it.cnr.isti.hpc.wikipedia.article.*;
 import it.cnr.isti.hpc.wikipedia.article.Article.Type;
-import it.cnr.isti.hpc.wikipedia.article.Language;
-import it.cnr.isti.hpc.wikipedia.article.Link;
-import it.cnr.isti.hpc.wikipedia.article.Table;
-import it.cnr.isti.hpc.wikipedia.article.Template;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -215,8 +211,6 @@ public class ArticleParser {
 		}
 	}
 
-
-
 	private void setLinks(Article article, ParsedPage page){
         final List<Link> links = new ArrayList<Link>(page.getLinks().size());
         final List<Link> elinks = new ArrayList<Link>(page.getLinks().size());
@@ -369,8 +363,7 @@ public class ArticleParser {
     private void setTemplates(Article article, ParsedPage page) {
         final List<Template> templates = new ArrayList<Template>(10);
 
-        for (final de.tudarmstadt.ukp.wikipedia.parser.Template t : page
-                .getTemplates()) {
+        for (final de.tudarmstadt.ukp.wikipedia.parser.Template t : page.getTemplates()) {
             final List<String> templateParameters = t.getParameters();
             parseTemplatesSchema(article, templateParameters);
 
@@ -379,7 +372,7 @@ public class ArticleParser {
             } else {
                 templates.add(new Template(t.getName(), templateParameters));
             }
-                }
+        }
         article.setTemplates(templates);
 
     }
@@ -431,22 +424,24 @@ public class ArticleParser {
 
         }
         article.setHighlights(highlights);
-
     }
 
     private void setParagraphs(Article article, ParsedPage page) {
-        final List<String> paragraphs = new ArrayList<String>(page.nrOfParagraphs());
-        int paragraphId = 0;
-        for (final Paragraph p : page.getParagraphs()) {
-            String text = p.getText();
-            // text = removeTemplates(text);
-            text = text.replace("\n", " ").trim();
-            if (!text.isEmpty()){
-                paragraphs.add(text);
+        List<ParagraphLite> result = new ArrayList<>();
+        for (Section s : page.getSections()) {
+            List<Paragraph> pl = s.getParagraphs();
+
+            for (Paragraph p : pl) {
+                String text = p.getText();
+                // text = removeTemplates(text);
+                text = text.replace("\n", " ").trim();
+                if (!text.isEmpty()){
+                    result.add(new ParagraphLite(s.getTitle(), text));
+                }
             }
-            paragraphId++;
         }
-        article.setParagraphs(paragraphs);
+
+        article.setParagraphLites(result);
     }
 
     private void setDisambiguation(Article a) {
@@ -460,10 +455,8 @@ public class ArticleParser {
                 if (StringUtils.equalsIgnoreCase(t.getName(), disambiguation)) {
                     a.setType(Type.DISAMBIGUATION);
                     return;
-
                 }
             }
-
         }
     }
 

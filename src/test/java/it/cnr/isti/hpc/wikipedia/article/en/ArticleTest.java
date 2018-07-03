@@ -19,12 +19,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.google.gson.Gson;
 import it.cnr.isti.hpc.io.IOUtils;
 import it.cnr.isti.hpc.wikipedia.article.Article;
 import it.cnr.isti.hpc.wikipedia.article.Language;
 import it.cnr.isti.hpc.wikipedia.article.Link;
 import it.cnr.isti.hpc.wikipedia.article.Link.Type;
+import it.cnr.isti.hpc.wikipedia.article.ParagraphLite;
 import it.cnr.isti.hpc.wikipedia.parser.ArticleParser;
 
 import java.io.IOException;
@@ -160,10 +160,10 @@ public class ArticleTest {
     }
     
     private void testAnchorsInParagraphs(Article article) {
-    	final List<String> paragraphs = article.getParagraphs();
+    	final List<ParagraphLite> paragraphs = article.getParagraphLites();
     	for(final Link link: article.getLinks()){
     		if(link.getType() == Type.BODY) {
-    			final String paragraph = paragraphs.get(link.getParagraphId());
+    			final String paragraph = paragraphs.get(link.getParagraphId()).getText();
     			final String anchor = paragraph.substring(link.getStart(), link.getEnd());
     			assertEquals(anchor, link.getAnchor());
     		}
@@ -180,18 +180,18 @@ public class ArticleTest {
         for (final Link link:a.getLinks()){
             if (link.getId().equals("Lists")){
                 assertEquals(Link.Type.LIST, link.getType());
-                assertEquals(0, link.getListId());
-                assertEquals(0, link.getListItem());
+                assertEquals((Integer)0, link.getListId());
+                assertEquals((Integer)0, link.getListItem());
             }
             if (link.getId().equals("every")){
                 assertEquals(Link.Type.LIST, link.getType());
-                assertEquals(0, link.getListId());
-                assertEquals(1, link.getListItem());
+                assertEquals((Integer)0, link.getListId());
+                assertEquals((Integer)1, link.getListItem());
             }
             if (link.getId().equals("newline")){
                 assertEquals(Link.Type.LIST, link.getType());
-                assertEquals(1, link.getListId());
-                assertEquals(0, link.getListItem());
+                assertEquals((Integer)1, link.getListId());
+                assertEquals((Integer)0, link.getListItem());
             }
         }
         testAnchorsInLists(a);
@@ -219,21 +219,21 @@ public class ArticleTest {
         for (final Link link:a.getLinks()){
             if (link.getId().equals("William_Webb")){
                 assertEquals(Link.Type.TABLE, link.getType());
-                assertEquals(0, link.getTableId());
-                assertEquals(2, link.getRowId());
-                assertEquals(1, link.getColumnId());
+                assertEquals((Integer)0, link.getTableId());
+                assertEquals((Integer)2, link.getRowId());
+                assertEquals((Integer)1, link.getColumnId());
             }
             if (link.getId().equals("Canada")){
                 assertEquals(Link.Type.TABLE, link.getType());
-                assertEquals(0, link.getTableId());
-                assertEquals(3, link.getRowId());
-                assertEquals(0, link.getColumnId());
+                assertEquals((Integer)0, link.getTableId());
+                assertEquals((Integer)3, link.getRowId());
+                assertEquals((Integer)0, link.getColumnId());
             }
             if (link.getId().equals("Alan_Mansfield")){
                 assertEquals(Link.Type.TABLE, link.getType());
-                assertEquals(1, link.getTableId());
-                assertEquals(3, link.getRowId());
-                assertEquals(1, link.getColumnId());
+                assertEquals((Integer)1, link.getTableId());
+                assertEquals((Integer)3, link.getRowId());
+                assertEquals((Integer)1, link.getColumnId());
             }
         }
     }

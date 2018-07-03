@@ -39,7 +39,7 @@ _enriched_ version of the wikitext page. The Article object contains:
   * a list of external links that appear in the article;
   * if the article  is a redirect, the pointed article;
   * a list of section titles in the article;
-  * the text of the article, divided in paragraphs (PLAIN, no wikitext);
+  * the text of the article, divided in paragraphLites (PLAIN, no wikitext);
   * the categories and the templates of the articles;
   * the list of attributes found in the templates;
   * a list of terms highlighted in the article;
@@ -104,7 +104,7 @@ and import the project in your new maven project adding the dependency:
  |    |-- element: array (containsNull = false)
  |    |    |-- element: string (containsNull = false)
  |-- namespace: string (nullable = true)
- |-- paragraphs: array (nullable = true)
+ |-- paragraphLites: array (nullable = true)
  |    |-- element: string (containsNull = false)
  |-- redirect: string (nullable = true)
  |-- sections: array (nullable = true)

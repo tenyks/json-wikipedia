@@ -191,7 +191,7 @@ public class Link {
 		return result;
 	}
 
-	public int getStart() {
+	public Integer getStart() {
 		return start;
 	}
 
@@ -199,7 +199,7 @@ public class Link {
 		this.start = start;
 	}
 
-	public int getEnd() {
+	public Integer getEnd() {
 		return end;
 	}
 
@@ -223,7 +223,7 @@ public class Link {
 		this.type = type;
 	}
 
-	public int getListId() {
+	public Integer getListId() {
 		return listId;
 	}
 
@@ -231,7 +231,7 @@ public class Link {
 		this.listId = listId;
 	}
 
-	public int getListItem() {
+	public Integer getListItem() {
 		return listItem;
 	}
 
@@ -239,7 +239,7 @@ public class Link {
 		this.listItem = listItem;
 	}
 
-	public int getTableId() {
+	public Integer getTableId() {
 		return tableId;
 	}
 
@@ -247,7 +247,7 @@ public class Link {
 		this.tableId = tableId;
 	}
 
-	public int getRowId() {
+	public Integer getRowId() {
 		return rowId;
 	}
 
@@ -255,7 +255,7 @@ public class Link {
 		this.rowId = rowId;
 	}
 
-	public int getColumnId() {
+	public Integer getColumnId() {
 		return columnId;
 	}
 

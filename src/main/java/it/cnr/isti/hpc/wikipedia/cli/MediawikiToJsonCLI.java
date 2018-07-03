@@ -89,7 +89,7 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 
 	private static final String USAGE = "java -cp $jar "
 			+ MediawikiToJsonCLI.class
-			+ " -input wikipedia-dump.xml.bz -output wikipedia-dump.json -lang [en|it]";
+			+ " -input wikipedia-dump.xml.bz -output wikipedia-dump.json -lang [en|it|zh]";
 
 	public MediawikiToJsonCLI(String[] args) {
 		super(args, params, USAGE);
@@ -100,8 +100,7 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 		String input = cli.getInput();
 		String output = cli.getOutput();
 		String lang = cli.getParam("lang");
-		WikipediaArticleReader wap = new WikipediaArticleReader(input, output,
-				lang);
+		WikipediaArticleReader wap = new WikipediaArticleReader(input, output, lang);
 		try {
 			wap.start();
 		} catch (Exception e) {
@@ -109,5 +108,4 @@ public class MediawikiToJsonCLI extends AbstractCommandLineInterface {
 			System.exit(-1);
 		}
 	}
-
 }

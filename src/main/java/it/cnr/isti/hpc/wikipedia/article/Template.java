@@ -1,17 +1,17 @@
-/**
- *  Copyright 2011 Diego Ceccarelli
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+/*
+   Copyright 2011 Diego Ceccarelli
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
  */
 package it.cnr.isti.hpc.wikipedia.article;
 
@@ -38,10 +38,8 @@ public class Template {
 	private transient Map<String,String> map;
 	
 	public boolean isDisambiguation(){
-
 		return name.equalsIgnoreCase("disambiguation") || name.startsWith("Disamb") || name.startsWith("disamb");
 	}
-	
 
 	@Override
 	public int hashCode() {
@@ -68,8 +66,7 @@ public class Template {
 		} else if (!description.equals(other.description))
 			return false;
 		if (name == null) {
-			if (other.name != null)
-				return false;
+			return other.name == null;
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
@@ -109,7 +106,7 @@ public class Template {
 	
 	public Map<String,String> getAsMap(){
 		if (map != null) return map;
-		map = new HashMap<String,String>();
+		map = new HashMap<>();
 		for (String desc : getDescription()){
 			int pos = desc.indexOf(KEY_VALUE_SEPARATOR);
 			if (pos >= 0){
@@ -119,33 +116,21 @@ public class Template {
 			}
 		}
 		return map;
-		
 	}
 
-
-	
 	@Override
 	public String toString() {
 		return "Template [name=" + name + ", description=" + description + "]";
 	}
-	
-	
+
 	private static class EmptyTemplate extends Template {
 
-		/**
-		 * @param name
-		 * @param description
-		 */
 		public EmptyTemplate() {
 			super("",null);
 		}
-		
-		
 
 		public String toString(){
 			return "";
 		}
 	}
-
-	
 }

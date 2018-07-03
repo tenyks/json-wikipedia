@@ -1,4 +1,4 @@
-This [[document]] has been created to test links in paragraphs.
+This [[document]] has been created to test links in paragraphLites.
 
 This [[link]] is at the second paragraph.
 
